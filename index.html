@@ -659,6 +659,66 @@
     .btn-credits{padding:8px 12px;font-size:.8rem;}
   }
 
+
+  /* --- תוספת בלבד: סימון תקופת הבית השני מעל ציר הזמן --- */
+  #second-temple-period{
+    display:grid;
+    grid-template-columns:repeat(13,minmax(72px,1fr));
+    gap:7px;
+    margin:0 0 7px;
+    direction:rtl;
+    pointer-events:none;
+  }
+  .second-temple-bar{
+    grid-column:3 / 7;
+    width:88%;
+    justify-self:start;
+    position:relative;
+    min-height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:5px 10px 8px;
+    border-top:4px solid var(--blue-mid);
+    color:var(--dark-deep);
+    font-size:.78rem;
+    line-height:1.15;
+    font-weight:800;
+    text-align:center;
+  }
+  .second-temple-bar::before,
+  .second-temple-bar::after{
+    content:'';
+    position:absolute;
+    top:-4px;
+    width:4px;
+    height:15px;
+    background:var(--blue-mid);
+    border-radius:3px;
+  }
+  .second-temple-bar::before{right:0;}
+  .second-temple-bar::after{left:0;}
+
+  @media(max-width:760px){
+    #second-temple-period{
+      grid-template-columns:repeat(13,minmax(48px,1fr));
+      gap:4px;
+      margin-bottom:5px;
+    }
+    .second-temple-bar{
+      min-height:29px;
+      padding:3px 4px 6px;
+      border-top-width:3px;
+      font-size:.56rem;
+    }
+    .second-temple-bar::before,
+    .second-temple-bar::after{
+      top:-3px;
+      width:3px;
+      height:12px;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -687,6 +747,9 @@
 
   <section id="timeline-section">
     <h3>ציר הזמן</h3>
+    <div id="second-temple-period" aria-label="תקופת הבית השני">
+      <div class="second-temple-bar">בית המקדש השני: 538 לפנה״ס–70 לספירה</div>
+    </div>
     <div id="timeline"></div>
   </section>
 
@@ -819,6 +882,8 @@ function makeCardHTML(card){
 function render(){
   timelineEl.innerHTML = '';
   timelineEl.classList.toggle('completed', !!state.locked);
+  const secondTemplePeriod = document.getElementById('second-temple-period');
+  if(secondTemplePeriod){ secondTemplePeriod.style.display = state.locked ? 'none' : 'grid'; }
   CARDS.forEach((meta, slotIndex)=>{
     const wrap = document.createElement('div');
     wrap.className = 'slot';
